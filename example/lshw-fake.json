@@ -23,8 +23,7 @@
       "id" : "memory",
       "description" : "System memory",
       "physid" : "0",
-      "size" : "8351612928",
-      "children" : [ ]
+      "size" : "8351612928"
     }, {
       "claimed" : "true",
       "class" : "processor",
@@ -105,8 +104,7 @@
         "ept" : true,
         "vpid" : true,
         "cpufreq" : "CPU Frequency scaling"
-      },
-      "children" : [ ]
+      }
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -170,8 +168,7 @@
             "bus_master" : "bus mastering",
             "cap_list" : "PCI capabilities listing",
             "rom" : "extension ROM"
-          },
-          "children" : [ ]
+          }
         } ]
       }, {
         "class" : "generic",
@@ -191,8 +188,7 @@
         "capabilities" : {
           "pciexpress" : "PCI Express",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "class" : "generic",
         "handle" : "PCI:0000:00:08.1",
@@ -211,8 +207,7 @@
         "capabilities" : {
           "pciexpress" : "PCI Express",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "class" : "generic",
         "handle" : "PCI:0000:00:08.2",
@@ -231,8 +226,7 @@
         "capabilities" : {
           "pciexpress" : "PCI Express",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "class" : "generic",
         "handle" : "PCI:0000:00:08.3",
@@ -247,8 +241,7 @@
         "clock" : "33000000",
         "configuration" : {
           "latency" : "0"
-        },
-        "children" : [ ]
+        }
       }, {
         "class" : "generic",
         "handle" : "PCI:0000:00:10.0",
@@ -263,8 +256,7 @@
         "clock" : "33000000",
         "configuration" : {
           "latency" : "0"
-        },
-        "children" : [ ]
+        }
       }, {
         "class" : "generic",
         "handle" : "PCI:0000:00:10.1",
@@ -279,8 +271,7 @@
         "clock" : "33000000",
         "configuration" : {
           "latency" : "0"
-        },
-        "children" : [ ]
+        }
       }, {
         "claimed" : "true",
         "class" : "communication",
@@ -303,8 +294,7 @@
           "msi" : "Message Signalled Interrupts",
           "bus_master" : "bus mastering",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "claimed" : "true",
         "class" : "bus",
@@ -366,8 +356,7 @@
             },
             "capabilities" : {
               "usb-2.00" : "USB 2.0"
-            },
-            "children" : [ ]
+            }
           } ]
         } ]
       }, {
@@ -393,8 +382,7 @@
           "pciexpress" : "PCI Express",
           "bus_master" : "bus mastering",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "claimed" : "true",
         "class" : "bridge",
@@ -468,8 +456,7 @@
             "1000bt" : "1Gbit/s",
             "1000bt-fd" : "1Gbit/s (full duplex)",
             "autonegotiation" : "Auto-negotiation"
-          },
-          "children" : [ ]
+          }
         } ]
       }, {
         "claimed" : "true",
@@ -571,8 +558,7 @@
                 },
                 "capabilities" : {
                   "usb-1.10" : "USB 1.1"
-                },
-                "children" : [ ]
+                }
               }, {
                 "claimed" : "true",
                 "class" : "input",
@@ -591,8 +577,7 @@
                 },
                 "capabilities" : {
                   "usb-2.00" : "USB 2.0"
-                },
-                "children" : [ ]
+                }
               } ]
             } ]
           } ]
@@ -615,8 +600,7 @@
           "subtractive_decode" : true,
           "bus_master" : "bus mastering",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "claimed" : "true",
         "class" : "bridge",
@@ -638,8 +622,7 @@
           "isa" : true,
           "bus_master" : "bus mastering",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "claimed" : "true",
         "class" : "storage",
@@ -664,8 +647,7 @@
           "ahci_1.0" : true,
           "bus_master" : "bus mastering",
           "cap_list" : "PCI capabilities listing"
-        },
-        "children" : [ ]
+        }
       }, {
         "claimed" : "true",
         "class" : "bus",
@@ -682,8 +664,7 @@
         "configuration" : {
           "driver" : "i801_smbus",
           "latency" : "0"
-        },
-        "children" : [ ]
+        }
       } ]
     }, {
       "claimed" : "true",
@@ -697,8 +678,7 @@
       "businfo" : "pci@0000:ff:00.0",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -711,8 +691,7 @@
       "businfo" : "pci@0000:ff:00.1",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -728,8 +707,7 @@
       "clock" : "33000000",
       "configuration" : {
         "driver" : "i7core_edac"
-      },
-      "children" : [ ]
+      }
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -742,8 +720,7 @@
       "businfo" : "pci@0000:ff:02.1",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -756,8 +733,7 @@
       "businfo" : "pci@0000:ff:03.0",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -770,8 +746,7 @@
       "businfo" : "pci@0000:ff:03.1",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -784,8 +759,7 @@
       "businfo" : "pci@0000:ff:03.4",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -798,8 +772,7 @@
       "businfo" : "pci@0000:ff:04.0",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -812,8 +785,7 @@
       "businfo" : "pci@0000:ff:04.1",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -826,8 +798,7 @@
       "businfo" : "pci@0000:ff:04.2",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -840,8 +811,7 @@
       "businfo" : "pci@0000:ff:04.3",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -854,8 +824,7 @@
       "businfo" : "pci@0000:ff:05.0",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -868,8 +837,7 @@
       "businfo" : "pci@0000:ff:05.1",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -882,8 +850,7 @@
       "businfo" : "pci@0000:ff:05.2",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "bridge",
@@ -896,8 +863,7 @@
       "businfo" : "pci@0000:ff:05.3",
       "version" : "04",
       "width" : "32",
-      "clock" : "33000000",
-      "children" : [ ]
+      "clock" : "33000000"
     }, {
       "claimed" : "true",
       "class" : "storage",
@@ -970,8 +936,7 @@
             "ext4" : true,
             "ext2" : "EXT2/EXT3",
             "initialized" : "initialized volume"
-          },
-          "children" : [ ]
+          }
         }, {
           "claimed" : "true",
           "class" : "volume",
@@ -1002,8 +967,7 @@
             "capacity" : "10172235776",
             "capabilities" : {
               "nofs" : "No filesystem"
-            },
-            "children" : [ ]
+            }
           } ]
         } ]
       } ]
@@ -1040,8 +1004,7 @@
           "removable" : "support is removable",
           "audio" : "Audio CD playback",
           "dvd" : "DVD playback"
-        },
-        "children" : [ ]
+        }
       } ]
     } ]
   } ]

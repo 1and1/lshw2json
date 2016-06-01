@@ -76,8 +76,8 @@ public class Main {
             mapIdElements(node, "configuration", "setting", e -> e.getAttribute("value").trim());
             mapIdElements(node, "capabilities", "capability", e -> e.getTextContent().trim());
             
-            NodeList subNodes = (NodeList) factory.newXPath().evaluate("./node", list, XPathConstants.NODESET);
-            if (subNodes.getLength() > 0) {
+            Double count = (Double)factory.newXPath().evaluate("count(./node)", node, XPathConstants.NUMBER);
+            if (count.intValue() > 0) {
                 generator.writeArrayFieldStart("children");
                 processNodes(node);
                 generator.writeEndArray();
@@ -151,7 +151,7 @@ public class Main {
         generator.writeEndObject();
     }
     
-    public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {        
         if (args.length != 2) {
             System.err.println("Usage: Main <XML-INPUT-FILE> <JSON-OUTPUT-FILE>");
             System.exit(1);
