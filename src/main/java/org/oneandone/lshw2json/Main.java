@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.oneandone.lshw2json;
 
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -61,6 +56,8 @@ public class Main {
      * @param list a parent of node elements.
      */
     private void processNodes(Element list) throws IOException, XPathExpressionException {
+        Objects.requireNonNull(list, "list is null");
+        
         NodeList nodeList = (NodeList) factory.newXPath().evaluate("./node", list, XPathConstants.NODESET);
 
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -86,8 +83,8 @@ public class Main {
     private void mapAttributes(Element node) throws IOException {
         NamedNodeMap map = node.getAttributes();
         for (int i=0; i < map.getLength(); i++) {
-            Attr n = (Attr) map.item(i);
-            generator.writeStringField(n.getName(), n.getValue());
+            Attr attribute = (Attr) map.item(i);
+            generator.writeStringField(attribute.getName(), attribute.getValue());
         }
     }
     
