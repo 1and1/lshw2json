@@ -21,7 +21,7 @@
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <mainClass>org.1and1.lshw2json.Main</mainClass>
+                            <mainClass>org.oneandone.lshw2json.Main</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Build-Number>${project.version}</Build-Number>
