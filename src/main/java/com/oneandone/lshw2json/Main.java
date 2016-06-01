@@ -1,4 +1,4 @@
-package org.oneandone.lshw2json;
+package com.oneandone.lshw2json;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;

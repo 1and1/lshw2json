@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.1and1</groupId>
+    <groupId>com.oneandone</groupId>
     <artifactId>lshw2json</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -21,7 +21,7 @@
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <mainClass>org.oneandone.lshw2json.Main</mainClass>
+                            <mainClass>com.oneandone.lshw2json.Main</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Build-Number>${project.version}</Build-Number>
@@ -39,7 +39,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.oneandone.lshw2json.Main</mainClass>
+                            <mainClass>com.oneandone.lshw2json.Main</mainClass>
                         </manifest>
                     </archive>                    
                 </configuration>
