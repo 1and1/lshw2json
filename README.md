@@ -1,6 +1,6 @@
 # lshw2json
 
-Simple conversion from a LSHW XML input file to LSHW JSON output file.
+Simple conversion from a [LSHW](http://linux.die.net/man/1/lshw) [XML](https://en.wikipedia.org/wiki/XML) input file to LSHW [JSON](https://en.wikipedia.org/wiki/JSON) output file.
 
 LSHW is a Unix tool that dumps information about the hardware components that are
 in a computer. LSHW itself has the possiblity to output XML files and also JSON files. 
