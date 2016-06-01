@@ -8,6 +8,11 @@ When converting, this software tries to imitate the layout of the JSON files.
 The software does NOT aim to produce 100% identical outputs to the original
 LSHW JSON format.
 
+## Why this software?
+
+LSHW can output XML and JSON files. Yes. It happens that we only had XML files and I needed to have the JSON formats
+for a project.
+
 ## Building
 
 Building is done using Apache Maven as a build tool.
