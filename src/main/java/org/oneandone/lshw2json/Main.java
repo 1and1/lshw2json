@@ -9,8 +9,6 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -31,14 +29,16 @@ import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 /**
- *
- * @author stephan
+ * Converts a LSHW XML document to a LSHW JSON document.
+ * @author Stephan Fuhrmann
  */
 public class Main {
 
+    /** The generator for the JSON output. */
     private final JsonGenerator generator;
-    private final XPathFactory factory;
     
+    /** XPath factory to use. */
+    private final XPathFactory factory;
     
     private Main(JsonGenerator generator) {
         this.generator = Objects.requireNonNull(generator);
@@ -46,16 +46,20 @@ public class Main {
     }
         
     private static void toJson(Document doc, File f) throws IOException, XPathExpressionException {
-        JsonGenerator generator = new JsonFactory().createGenerator(f, JsonEncoding.UTF8);
-        generator.setPrettyPrinter(new DefaultPrettyPrinter());
-        
-        Main instance = new Main(generator);       
-        
-        Element list = doc.getDocumentElement();
-        instance.processNodes(list);
-        generator.close();
+        try (JsonGenerator generator = new JsonFactory().createGenerator(f, JsonEncoding.UTF8)) {
+            generator.setPrettyPrinter(new DefaultPrettyPrinter());
+            
+            Main instance = new Main(generator);
+            
+            Element list = doc.getDocumentElement();
+            instance.processNodes(list);
+        }
     }
     
+    /** Process all "node" elements in one hierarchy level. 
+     * This is a recursive call.
+     * @param list a parent of node elements.
+     */
     private void processNodes(Element list) throws IOException, XPathExpressionException {
         NodeList nodeList = (NodeList) factory.newXPath().evaluate("./node", list, XPathConstants.NODESET);
 
@@ -78,6 +82,7 @@ public class Main {
         }
     }
     
+    /** Maps XML attributes to JSON fields. */
     private void mapAttributes(Element node) throws IOException {
         NamedNodeMap map = node.getAttributes();
         for (int i=0; i < map.getLength(); i++) {
@@ -86,6 +91,7 @@ public class Main {
         }
     }
     
+    /** Maps simple XML "value elements" to JSON fields. */
     private void mapElements(Element node) throws IOException {
         NodeList list = node.getChildNodes();
         for (int i=0; i < list.getLength(); i++) {
@@ -103,7 +109,14 @@ public class Main {
         }
     }
     
-    private void mapIdElements(Element parent, String level1Name, String level2Name, Function<Element, String> func) throws IOException, XPathExpressionException {
+    /** Maps key value lists to JSON fields. 
+     * This happens in the LSHW output for capabilities and configuration items.
+     * @param parent the parent of the lists, usually a "node" element.
+     * @parma level1name the first level container element name, for example "capabilities".
+     * @param level2Name the item element name, for example "capability".
+     * @param valueMapper a mapping function for values at item element level.
+     */
+    private void mapIdElements(Element parent, String level1Name, String level2Name, Function<Element, String> valueMapper) throws IOException, XPathExpressionException {
         NodeList list = (NodeList) factory.newXPath().evaluate(level1Name + "/" + level2Name, parent, XPathConstants.NODESET);
         
         if (list.getLength() == 0)
@@ -116,7 +129,7 @@ public class Main {
             if (child2 instanceof Element) {
 
                 Element element2 = (Element) child2;
-                String v = func.apply(element2);
+                String v = valueMapper.apply(element2);
                 if (!v.isEmpty()) {
                     generator.writeStringField(element2.getAttribute("id"), v);
                 } else {
@@ -128,6 +141,11 @@ public class Main {
     }
     
     public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+        if (args.length != 2) {
+            System.err.println("Usage: Main <XML-INPUT-FILE> <JSON-OUTPUT-FILE>");
+            System.exit(1);
+        }
+        
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(args[0]));
