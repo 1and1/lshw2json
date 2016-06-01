@@ -6,7 +6,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,13 +35,22 @@ public class Main {
 
     /** The generator for the JSON output. */
     private final JsonGenerator generator;
-    
+
     /** XPath factory to use. */
     private final XPathFactory factory;
-    
+
+    /** Names which are treated as native JSON numbers. */
+    private final Set<String> numberNames;
+
+    /** Names which are treated as native JSON bools. */
+    private final Set<String> booleanNames;
+
     private Main(JsonGenerator generator) {
         this.generator = Objects.requireNonNull(generator);
         this.factory = XPathFactory.newInstance();
+        
+        numberNames = new HashSet<>(Arrays.asList("size", "capacity", "width", "clock"));
+        booleanNames = new HashSet<>(Arrays.asList("claimed"));
     }
         
     /** Writes a JSON file from the given XML document.
@@ -87,12 +100,31 @@ public class Main {
         }
     }
     
+    /** Writes a field and honors the JSON type by looking at the field name and
+     * trying to determine what type this is.
+     * @param key the key to write.
+     * @param value the (String) value to write. Might be converted to another type.
+     * @see #booleanNames
+     * @see #numberNames
+     */
+    private void writeField(String key, String value) throws IOException {
+        if (numberNames.contains(key)) {
+            BigDecimal decimal = new BigDecimal(value);
+            generator.writeNumberField(key, decimal);
+        } else if (booleanNames.contains(key)) {
+            boolean boolVal = Boolean.parseBoolean(value);
+            generator.writeBooleanField(key, boolVal);
+        } else {
+            generator.writeStringField(key, value);
+        }
+    }
+    
     /** Maps XML attributes to JSON fields. */
     private void mapAttributes(Element node) throws IOException {
         NamedNodeMap map = node.getAttributes();
         for (int i=0; i < map.getLength(); i++) {
             Attr attribute = (Attr) map.item(i);
-            generator.writeStringField(attribute.getName(), attribute.getValue());
+            writeField(attribute.getName(), attribute.getValue());
         }
     }
     
@@ -107,7 +139,7 @@ public class Main {
                 if (element.getChildNodes().getLength() == 1 && element.getChildNodes().item(0) instanceof Text) {
                     String content = element.getTextContent().trim();
                     if (!content.isEmpty()) {
-                        generator.writeStringField(element.getTagName(), content);
+                        writeField(element.getTagName(), content);
                     }
                 }
             }
@@ -142,7 +174,7 @@ public class Main {
                     continue;
                 }
                 if (!v.isEmpty()) {
-                    generator.writeStringField(id, v);
+                    writeField(id, v);
                 } else {
                     generator.writeBooleanField(id, true);
                 }
