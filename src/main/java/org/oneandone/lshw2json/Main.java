@@ -40,8 +40,12 @@ public class Main {
         this.factory = XPathFactory.newInstance();
     }
         
-    private static void toJson(Document doc, File f) throws IOException, XPathExpressionException {
-        try (JsonGenerator generator = new JsonFactory().createGenerator(f, JsonEncoding.UTF8)) {
+    /** Writes a JSON file from the given XML document.
+     * @param doc the parsed DOM XML lshw document.
+     * @param output the file to write the JSON output to.
+     */
+    private static void writeJson(Document doc, File output) throws IOException, XPathExpressionException {
+        try (JsonGenerator generator = new JsonFactory().createGenerator(output, JsonEncoding.UTF8)) {
             generator.setPrettyPrinter(new DefaultPrettyPrinter());
             
             Main instance = new Main(generator);
@@ -152,6 +156,6 @@ public class Main {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File(args[0]));
-        toJson(doc, new File(args[1]));
+        writeJson(doc, new File(args[1]));
     }
 }
