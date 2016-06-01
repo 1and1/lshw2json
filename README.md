@@ -25,3 +25,11 @@ After building you can run the program in the command
 line similar to the following example:
 
     $ java -jar target/lshw2json-1.0-SNAPSHOT-jar-with-dependencies.jar  /tmp/lshw.xml  /tmp/lshw.j
+
+## Example data
+
+Example files are contained in the example folder:
+
+* [lshw.xml](example/lshw.xml) - the XML version file.
+* [lshw.json](example/lshw.json) - the original JSON  file produced by lshw itself.
+* [lshw-fake.json](example/lshw-fake.json) - the JSON file converted by this tool from the lshw.xml file mentioned above.
