@@ -51,6 +51,10 @@ public class Main {
             Main instance = new Main(generator);
             
             Element list = doc.getDocumentElement();
+            if (!list.getNodeName().equals("list")) {
+                throw new IllegalStateException("Root element is '"+list.getNodeName()+"', but expecting 'list'");
+            }
+
             instance.processNodes(list);
         }
     }
