@@ -127,10 +127,16 @@ public class Main {
 
                 Element element2 = (Element) child2;
                 String v = valueMapper.apply(element2);
+                String id = element2.getAttribute("id");
+                if (id == null) {
+                    // this is probably a structural error,
+                    // I am going to ignore this
+                    continue;
+                }
                 if (!v.isEmpty()) {
-                    generator.writeStringField(element2.getAttribute("id"), v);
+                    generator.writeStringField(id, v);
                 } else {
-                    generator.writeBooleanField(element2.getAttribute("id"), true);
+                    generator.writeBooleanField(id, true);
                 }
             }
         }
