@@ -154,8 +154,7 @@ public class Main {
      * @param valueMapper a mapping function for values at item element level.
      */
     private void mapIdElements(Element parent, String level1Name, String level2Name, Function<Element, String> valueMapper) throws IOException, XPathExpressionException {
-        NodeList list = (NodeList) factory.newXPath().evaluate(level1Name + "/" + level2Name, parent, XPathConstants.NODESET);
-        
+        NodeList list = (NodeList) factory.newXPath().evaluate(level1Name + "/" + level2Name, parent, XPathConstants.NODESET);       
         if (list.getLength() == 0)
             return;
         
@@ -184,14 +183,16 @@ public class Main {
     }
     
     public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {        
-        if (args.length != 2) {
-            System.err.println("Usage: Main <XML-INPUT-FILE> <JSON-OUTPUT-FILE>");
+        if (args.length == 0) {
+            System.err.println("Usage: Main <XML-INPUT-FILE> <...>");
             System.exit(1);
         }
         
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(new File(args[0]));
-        writeJson(doc, new File(args[1]));
+        for (String arg : args) {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new File(arg));
+            writeJson(doc, new File(arg+".json"));
+        }
     }
 }

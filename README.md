@@ -24,7 +24,9 @@ Building is done using Apache Maven as a build tool.
 After building you can run the program in the command
 line similar to the following example:
 
-    $ java -jar target/lshw2json-1.0-SNAPSHOT-jar-with-dependencies.jar  /tmp/lshw.xml  /tmp/lshw.j
+    $ java -jar target/lshw2json-1.0-SNAPSHOT-jar-with-dependencies.jar  /tmp/lshw.xml
+    
+The output file will be located in /tmp/lshw.xml.json (the suffix will simply be appended).
 
 ## Example data
 
