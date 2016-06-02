@@ -14,8 +14,8 @@ import java.util.Set;
 import java.util.function.Function;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Attr;
@@ -25,7 +25,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
 
 /**
  * Converts a LSHW XML document to a LSHW JSON document.
@@ -71,7 +70,7 @@ public class Main {
             instance.processNodes(list);
         }
     }
-    
+        
     /** Process all "node" elements in one hierarchy level. 
      * This is a recursive call.
      * @param list a parent of node elements.
@@ -182,17 +181,23 @@ public class Main {
         generator.writeEndObject();
     }
     
-    public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {        
+    public static void main(String args[])  {        
         if (args.length == 0) {
             System.err.println("Usage: Main <XML-INPUT-FILE> <...>");
             System.exit(1);
         }
         
         for (String arg : args) {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File(arg));
-            writeJson(doc, new File(arg+".json"));
+            try {
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                Document doc = db.parse(new File(arg));
+                writeJson(doc, new File(arg + ".json"));
+            }
+            catch (Exception e) {
+                System.err.println("Error with "+arg);
+                e.printStackTrace();
+            }
         }
     }
 }
