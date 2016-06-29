@@ -13,15 +13,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,9 +36,6 @@ public class Main {
     /** The generator for the JSON output. */
     private final JsonGenerator generator;
 
-    /** XPath factory to use. */
-    private final XPathFactory factory;
-
     /** Names which are treated as native JSON numbers. */
     private final Set<String> numberNames;
 
@@ -51,7 +44,6 @@ public class Main {
 
     private Main(JsonGenerator generator) {
         this.generator = Objects.requireNonNull(generator);
-        this.factory = XPathFactory.newInstance();
         
         numberNames = new HashSet<>(Arrays.asList("size", "capacity", "width", "clock"));
         booleanNames = new HashSet<>(Arrays.asList("claimed"));
@@ -96,8 +88,8 @@ public class Main {
                 mapIdElements(node, "configuration", "setting", e -> e.getAttribute("value").trim());
                 mapIdElements(node, "capabilities", "capability", e -> e.getTextContent().trim());
                 
-                Double count = (Double) factory.newXPath().evaluate("count(./node)", node, XPathConstants.NUMBER);
-                if (count.intValue() > 0) {
+                int count = getChildElementsWithName(node, "node").size();
+                if (count > 0) {
                     generator.writeArrayFieldStart("children");
                     processNodes(node);
                     generator.writeEndArray();
