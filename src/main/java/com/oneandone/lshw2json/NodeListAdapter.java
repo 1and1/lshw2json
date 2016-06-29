@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
  * Adapter for the List interface that adapts a NodeList.
  * @see NodeList
  * @see List
- * @author stephan
+ * @author Stephan Fuhrmann
  */
 public class NodeListAdapter extends AbstractList<Node> {
     private final NodeList nodeList;

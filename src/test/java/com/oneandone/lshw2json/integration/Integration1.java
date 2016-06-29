@@ -6,8 +6,8 @@
 package com.oneandone.lshw2json.integration;
 
 /**
- *
- * @author stephan
+ * Test for example1.
+ * @author Stephan Fuhrmann
  */
 public class Integration1 extends AbstractIntegration {
 

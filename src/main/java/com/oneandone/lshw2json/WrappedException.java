@@ -8,7 +8,7 @@ package com.oneandone.lshw2json;
 /**
  * A runtime exception used for wrapping checked exceptions.
  * Useful in the environment of functional programming.
- * @author stephan
+ * @author Stephan Fuhrmann
  */
 public class WrappedException extends RuntimeException {
 

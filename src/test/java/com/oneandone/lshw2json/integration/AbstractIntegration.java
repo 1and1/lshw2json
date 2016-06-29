@@ -18,8 +18,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author stephan
+ * Abstract test that reads one XML file and compares the result 
+ * with a given JSON file.
+ * The only methods that need to be implemented are {@link #getExpectedName()}
+ * and {@link #getInputName()}.
+ * @author Stephan Fuhrmann
  */
 public abstract class AbstractIntegration {
     /** The input XML file. */

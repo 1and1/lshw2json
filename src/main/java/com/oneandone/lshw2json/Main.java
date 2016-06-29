@@ -149,6 +149,11 @@ public class Main {
         }
     }
     
+    /** Gets all child elements of a DOM element with a certain name.
+     * @param parent the parent to examine the children of.
+     * @param name the name of the child elements to search.
+     * @return a List of all direct child elements having the given name.
+     */
     private static List<Element> getChildElementsWithName(Element parent, String name) {
         List<Element> outer = new NodeListAdapter(parent.getChildNodes()).
             stream().
