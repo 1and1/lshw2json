@@ -61,7 +61,7 @@ public class Main {
             
             Element list = doc.getDocumentElement();
             if (!list.getNodeName().equals("list")) {
-                throw new IllegalStateException("Root element is '"+list.getNodeName()+"', but expecting 'list'");
+                throw new IOException("Root element is '"+list.getNodeName()+"', but expecting 'list'");
             }
 
             instance.processNodes(list);
@@ -97,7 +97,7 @@ public class Main {
                 
                 generator.writeEndObject();
             } catch (IOException | XPathExpressionException ex) {
-                throw new RuntimeException(ex);
+                throw new WrappedException(ex);
             }
         }
         );        
@@ -198,7 +198,7 @@ public class Main {
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new WrappedException(e);
             }
         }
         );
@@ -218,7 +218,7 @@ public class Main {
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new File(arg));
                 writeJson(doc, new File(arg + ".json"));
-            } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e) {
+            } catch (ParserConfigurationException | SAXException | IOException | WrappedException | XPathExpressionException e) {
                 System.err.println("Error with " + arg);
                 e.printStackTrace();
             }
