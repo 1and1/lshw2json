@@ -9,11 +9,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -24,6 +29,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 
 /**
  * Converts a LSHW XML document to a LSHW JSON document.
@@ -84,23 +90,27 @@ public class Main {
         
         NodeList nodeList = (NodeList) factory.newXPath().evaluate("./node", list, XPathConstants.NODESET);
 
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            generator.writeStartObject();
-            Element node = (Element) nodeList.item(i);
-            mapAttributes(node);
-            mapElements(node);
-            mapIdElements(node, "configuration", "setting", e -> e.getAttribute("value").trim());
-            mapIdElements(node, "capabilities", "capability", e -> e.getTextContent().trim());
-            
-            Double count = (Double)factory.newXPath().evaluate("count(./node)", node, XPathConstants.NUMBER);
-            if (count.intValue() > 0) {
-                generator.writeArrayFieldStart("children");
-                processNodes(node);
-                generator.writeEndArray();
+        getChildElementsWithName(list, "node").forEach(node -> {
+            try {
+                generator.writeStartObject();
+                mapAttributes(node);
+                mapElements(node);
+                mapIdElements(node, "configuration", "setting", e -> e.getAttribute("value").trim());
+                mapIdElements(node, "capabilities", "capability", e -> e.getTextContent().trim());
+                
+                Double count = (Double) factory.newXPath().evaluate("count(./node)", node, XPathConstants.NUMBER);
+                if (count.intValue() > 0) {
+                    generator.writeArrayFieldStart("children");
+                    processNodes(node);
+                    generator.writeEndArray();
+                }
+                
+                generator.writeEndObject();
+            } catch (IOException | XPathExpressionException ex) {
+                throw new RuntimeException(ex);
             }
-            
-            generator.writeEndObject();
         }
+        );        
     }
     
     /** Writes a field and honors the JSON type by looking at the field name and
@@ -149,6 +159,17 @@ public class Main {
         }
     }
     
+    private static List<Element> getChildElementsWithName(Element parent, String name) {
+        List<Element> outer = new NodeListAdapter(parent.getChildNodes()).
+            stream().
+            filter(e -> e instanceof Element).
+            map(e -> (Element) e).
+            filter(e -> e.getNodeName().equals(name)).
+            collect(Collectors.toList());
+
+        return outer;
+    }
+    
     /** Maps key value lists to JSON fields. 
      * This happens in the LSHW output for capabilities and configuration items.
      * @param parent the parent of the lists, usually a "node" element.
@@ -157,31 +178,41 @@ public class Main {
      * @param valueMapper a mapping function for values at item element level.
      */
     private void mapIdElements(Element parent, String level1Name, String level2Name, Function<Element, String> valueMapper) throws IOException, XPathExpressionException {
-        NodeList list = (NodeList) factory.newXPath().evaluate(level1Name + "/" + level2Name, parent, XPathConstants.NODESET);       
-        if (list.getLength() == 0)
+        
+        List<Element> outer = getChildElementsWithName(parent, level1Name);
+        
+        long count = outer.stream().flatMap(node -> getChildElementsWithName(node, level2Name).stream()).count();
+        if (count == 0)
             return;
         
         generator.writeObjectFieldStart(level1Name);
 
-        for (int j = 0; j < list.getLength(); j++) {
-            Node child2 = list.item(j);
-            if (child2 instanceof Element) {
+        outer.stream().flatMap(node -> getChildElementsWithName(node, level2Name).stream()).forEach(
+            subNode
+            -> {
+            try {
+                if (subNode instanceof Element) {
 
-                Element element2 = (Element) child2;
-                String v = valueMapper.apply(element2);
-                String id = element2.getAttribute("id");
-                if (id == null) {
-                    // this is probably a structural error,
-                    // I am going to ignore this
-                    continue;
+                    Element subElement = (Element) subNode;
+                    String v = valueMapper.apply(subElement);
+                    String id = subElement.getAttribute("id");
+                    if (id == null) {
+                        // this is probably a structural error,
+                        // I am going to ignore this
+                        return;
+                    }
+                    if (!v.isEmpty()) {
+                        writeField(id, v);
+                    } else {
+                        generator.writeBooleanField(id, true);
+                    }
                 }
-                if (!v.isEmpty()) {
-                    writeField(id, v);
-                } else {
-                    generator.writeBooleanField(id, true);
-                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
+        );
+        
         generator.writeEndObject();
     }
     
@@ -197,7 +228,7 @@ public class Main {
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new File(arg));
                 writeJson(doc, new File(arg + ".json"));
-            } catch (Exception e) {
+            } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e) {
                 System.err.println("Error with " + arg);
                 e.printStackTrace();
             }
