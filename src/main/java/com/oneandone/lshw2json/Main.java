@@ -68,6 +68,11 @@ public class Main {
 
             instance.processNodes(list);
         }
+        catch (Exception e) {
+            // delete output file in case of error
+            output.delete();
+            throw e;
+        }
     }
         
     /** Process all "node" elements in one hierarchy level. 
