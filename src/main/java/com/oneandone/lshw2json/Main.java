@@ -191,17 +191,16 @@ public class Main {
             System.exit(1);
         }
         
-        for (String arg : args) {
+        Arrays.asList(args).stream().parallel().forEach(arg -> {
             try {
                 DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new File(arg));
                 writeJson(doc, new File(arg + ".json"));
-            }
-            catch (Exception e) {
-                System.err.println("Error with "+arg);
+            } catch (Exception e) {
+                System.err.println("Error with " + arg);
                 e.printStackTrace();
             }
-        }
+        });
     }
 }
