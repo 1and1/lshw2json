@@ -9,15 +9,15 @@ package com.oneandone.lshw2json.integration;
  *
  * @author stephan
  */
-public class Integration1 extends AbstractIntegration {
+public class Integration2 extends AbstractIntegration {
 
     @Override
     public String getInputName() {
-        return "/example1.xml";
+        return "/example2.xml";
     }
 
     @Override
     public String getExpectedName() {
-        return "/example1.xml.json";
+        return "/example2.xml.json";
     }
 }
