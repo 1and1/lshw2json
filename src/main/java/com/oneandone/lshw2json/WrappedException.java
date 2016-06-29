@@ -15,8 +15,4 @@ public class WrappedException extends RuntimeException {
     public WrappedException(Exception cause) {
         super(cause);
     }
-    
-    public static void rethrow(Exception e) {
-        throw new WrappedException(e);
-    }
 }
