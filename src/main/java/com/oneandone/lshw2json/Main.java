@@ -88,8 +88,6 @@ public class Main {
     private void processNodes(Element list) throws IOException, XPathExpressionException {
         Objects.requireNonNull(list, "list is null");
         
-        NodeList nodeList = (NodeList) factory.newXPath().evaluate("./node", list, XPathConstants.NODESET);
-
         getChildElementsWithName(list, "node").forEach(node -> {
             try {
                 generator.writeStartObject();
