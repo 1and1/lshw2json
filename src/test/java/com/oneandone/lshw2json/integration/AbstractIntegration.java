@@ -13,6 +13,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -49,6 +50,12 @@ public abstract class AbstractIntegration {
     public void setup() throws IOException {
         input = copyResourceToTemp(getInputName());
         expected = copyResourceToTemp(getExpectedName());
+    }
+    
+    @After
+    public void cleanup() throws IOException {
+        input.delete();
+        expected.delete();
     }
     
     @Test
